@@ -11,6 +11,8 @@ public class RedBlackTree<E extends Comparable<E>> {
         Node<E> left;
         Node<E> right;
         Node<E> parent;
+
+
         Color color;
 
         public Node(E element) {
@@ -52,6 +54,14 @@ public class RedBlackTree<E extends Comparable<E>> {
             return 0;
         }
         return 1 + Math.max(calculateHeight(node.left), calculateHeight(node.right));
+    }
+    public Node<E> uncle(Node<E> node){
+        if(node.parent.parent.right == node.parent){
+            return node.parent.parent.left;
+        }
+        else {
+            return node.parent.parent.right;
+        }
     }
 
     public void insert(E element) {
@@ -97,9 +107,20 @@ public class RedBlackTree<E extends Comparable<E>> {
     }
 
     private void fixInsert(Node<E> node) {
-        // todo: implement the fixInsert method!
-        // follow the instructions in readme.md
+        if (node == root) {
+            node.color = Color.BLACK;
+            return;
+        }
+        if (node.parent.left != NIL) {
+            if (node.parent.right != NIL) {
+
+            }
+
+        }
     }
+
+
+
 
     private void leftRotate(Node<E> x) {
         Node<E> y = x.right;
