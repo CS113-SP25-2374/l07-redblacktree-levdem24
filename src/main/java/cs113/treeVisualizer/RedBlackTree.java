@@ -107,17 +107,50 @@ public class RedBlackTree<E extends Comparable<E>> {
     }
 
     private void fixInsert(Node<E> node) {
-        if (node == root) {
-            node.color = Color.BLACK;
-            return;
-        }
-        if (node.parent.left != NIL) {
-            if (node.parent.right != NIL) {
+        while (node != root && node.parent.color == Color.RED) {
+            Node<E> parent = node.parent;
+            Node<E> grandparent = parent.parent;
+            Node<E> uncle = uncle(node);
 
+            if (uncle != null && uncle.color == Color.RED) {
+                // Condition: Parent and Uncle are RED
+                parent.color = Color.BLACK;
+                uncle.color = Color.BLACK;
+                grandparent.color = Color.RED;
+                node = grandparent; // Move up the tree
+
+            } else {
+                // Uncle is BLACK or NIL
+                if (parent == grandparent.left) {
+                    if (node == parent.right) {
+                        // Zig-Zag (Left-Right)
+                        node = parent;
+                        leftRotate(node);
+                        parent = node.parent;
+                    }
+                    // Linear (Left-Left)
+                    parent.color = Color.BLACK;
+                    grandparent.color = Color.RED;
+                    rightRotate(grandparent);
+
+                } else { // parent == grandparent.right
+                    if (node == parent.left) {
+                        // Zig-Zag (Right-Left)
+                        node = parent;
+                        rightRotate(node);
+                        parent = node.parent;
+                    }
+                    // Linear (Right-Right)
+                    parent.color = Color.BLACK;
+                    grandparent.color = Color.RED;
+                    leftRotate(grandparent);
+                }
+                break; // Fix done
             }
-
         }
+        root.color = Color.BLACK; // Root always black
     }
+
 
 
 
